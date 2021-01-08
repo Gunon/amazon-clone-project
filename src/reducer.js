@@ -1,5 +1,6 @@
 export const initialState = {
     basket: [],
+    user: null
 };
 
 export const getBasketTotal = ({basket}) =>{ 
@@ -10,6 +11,13 @@ export const getBasketTotal = ({basket}) =>{
     }
     return total;
 };
+
+export const formatNameFromEmail = (email) =>{
+    var username = "";
+    username = email?.split("@")[0];
+    return username?.charAt(0).toUpperCase() + username?.slice(1);
+    
+}
 
 const reducer = (state, action) => {
     switch(action.type){
@@ -34,6 +42,11 @@ const reducer = (state, action) => {
                 ...state,
                 basket: newBasket,
             }
+        case 'SET_USER':
+            return {
+                ...state,
+                user: action.user,
+            };
             
 
         default:
