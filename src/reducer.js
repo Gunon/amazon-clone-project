@@ -14,9 +14,12 @@ export const getBasketTotal = ({basket}) =>{
 
 export const formatNameFromEmail = (email) =>{
     var username = "";
-    username = email?.split("@")[0];
-    return username?.charAt(0).toUpperCase() + username?.slice(1);
-    
+    if (email == null){
+        return username
+    }else{
+        username = email?.split("@")[0];
+        return username?.charAt(0).toUpperCase() + username?.slice(1) + '';
+    }
 }
 
 const reducer = (state, action) => {
