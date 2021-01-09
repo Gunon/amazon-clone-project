@@ -8,7 +8,10 @@ import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { useEffect } from 'react';
 import Payment from './Payment';
+import { loadStripe }from "@stripe/stripe-js";
+import { Elements }from "@stripe/react-stripe-js";
 
+const promise = loadStripe("pk_test_51I7THdIpXPiNoexufnId7y1kRJZRaBM4TwoywftXDE86ZQBJIk36kynw0bfavjLbP0VzPQCFyvZCUYo2e9tisS1H00AmAAeRT5");
 
 function App() {
 
@@ -34,7 +37,6 @@ function App() {
   return (
     <Router>
       <div className="app">
-      
         <Switch>
           <Route path="/login">
             <Login/>
@@ -45,7 +47,9 @@ function App() {
           </Route>
           <Route path="/payment">
             <Header/>
-            <Payment />
+            <Elements stripe={promise}> {/* Need to place the component which will include the payments inside the elemnets scope that is invoking the stripe promise*/}
+              <Payment />
+            </Elements>
           </Route>
           <Route path="/">
             <Header/>

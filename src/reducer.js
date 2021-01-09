@@ -5,7 +5,7 @@ export const initialState = {
 
 export const getBasketTotal = ({basket}) =>{ 
     var total = 0;
-    for (let index = 0; index < basket.length; index++) {
+    for (let index = 0; index < basket?.length; index++) {
         const element = basket[index];
         total += element.price;
     }
