@@ -9,9 +9,9 @@ import { getBasketTotal } from './reducer';
 import { useStateValue } from './StateProvider';
 
 function Payment() {
-    const [{basket, user},dispatch] = useStateValue();
+    const [{ basket, user }, dispatch] = useStateValue();
     const history = useHistory();
-
+    
     const stripe = useStripe();
     const elements = useElements();
 
@@ -27,13 +27,16 @@ function Payment() {
             const response = await axios({
                 method: 'post',
                 //Stipe expects the total in a currencies subunits if dollars stripe expects cents 
-                url: `/payments/create?total=${getBasketTotal(basket) * 100}`
+                url: `/payments/create?total=${getBasketTotal(basket) * 100 }`
             });
             setClientSecret(response.data.clientSecret);
         };
 
         getClienteSecret();
     },[basket]);
+
+    /*console.log('THE SECRET IS >>>', clientSecret)
+    console.log('👱', user)*/
     
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,6 +50,8 @@ function Payment() {
             }
         }).then(({ paymentIntent }) => {
             //paymentIntent is stripe payment confirmation response
+            
+
             setSucceeded(true);
             setError(null);
             setProcessing(false);
@@ -114,7 +119,7 @@ function Payment() {
                                     </>
                                 )}
                                 decimalScale={2}
-                                value={getBasketTotal({basket})}  
+                                value={getBasketTotal(basket)}  
                                 displayType={"text"}
                                 thousandSeparator={true}
                                 prefix={"$"}

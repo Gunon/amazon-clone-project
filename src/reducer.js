@@ -3,14 +3,8 @@ export const initialState = {
     user: null
 };
 
-export const getBasketTotal = ({basket}) =>{ 
-    var total = 0;
-    for (let index = 0; index < basket?.length; index++) {
-        const element = basket[index];
-        total += element.price;
-    }
-    return total;
-};
+export const getBasketTotal = (basket) => 
+  basket?.reduce((amount, item) => item.price + amount, 0);
 
 export const formatNameFromEmail = (email) =>{
     var username = "";
