@@ -17,7 +17,7 @@ app.use(express.json());
 app.post("/payments/create", async (request, response) => {
   const total = request.query.total;
 
-  console.log("Payment Request Recieved BOOM!!! for this amount >>> ", total);
+  console.log("Payment Request amount >>> ", total);
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: total, // subunits of the currency
