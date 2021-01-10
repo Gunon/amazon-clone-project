@@ -7,6 +7,7 @@ import CheckoutProduct from './CheckoutProduct';
 import './Payment.css';
 import { getBasketTotal } from './reducer';
 import { useStateValue } from './StateProvider';
+import { db } from './firebase';
 
 function Payment() {
     const [{ basket, user }, dispatch] = useStateValue();
@@ -35,8 +36,8 @@ function Payment() {
         getClienteSecret();
     },[basket]);
 
-    /*console.log('THE SECRET IS >>>', clientSecret)
-    console.log('👱', user)*/
+    console.log('THE SECRET IS >>>', clientSecret);
+    console.log('👱', user);
     
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -50,11 +51,24 @@ function Payment() {
             }
         }).then(({ paymentIntent }) => {
             //paymentIntent is stripe payment confirmation response
-            
+            db
+                .collection('users')
+                .doc(user?.uid)
+                .collection('orders')
+                .doc(paymentIntent.id)
+                .set({
+                    basket: basket,
+                    amount: paymentIntent.amount,
+                    created: paymentIntent.created
+                })
 
             setSucceeded(true);
             setError(null);
             setProcessing(false);
+
+            dispatch({
+                type: 'EMPTY_BASKET'
+            });
 
             history.replace("/orders");
         })
@@ -124,7 +138,7 @@ function Payment() {
                                 thousandSeparator={true}
                                 prefix={"$"}
                             />
-                                <button disabled={processing || disabled || succeeded} className="a">
+                                <button disabled={processing || disabled || succeeded} >
                                         <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                                 </button>
                             </div>

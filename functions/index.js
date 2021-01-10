@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
-const stripe = require("stripe")('sk_test_51I7THdIpXPiNoexuvO1SQgsC6sUUdzGE5P8t0xJvfSOcsTuZ6fLUn27BfLYAB3BMMiHjXXJCL7oegHdalYpE9BtI00Bzs1hjF9');
+const stripe = require("stripe")("sk_test_51I7THdIpXPiNoexuvO1SQgsC6sUUdzGE5P8t0xJvfSOcsTuZ6fLUn27BfLYAB3BMMiHjXXJCL7oegHdalYpE9BtI00Bzs1hjF9");
 
 // API
 
@@ -9,7 +9,7 @@ const stripe = require("stripe")('sk_test_51I7THdIpXPiNoexuvO1SQgsC6sUUdzGE5P8t0
 const app = express();
 
 // - Middlewares
-app.use(cors({ origin: '*' }));
+app.use(cors({origin: "*"}));
 app.use(express.json());
 
 // - API routes
@@ -23,7 +23,7 @@ app.post("/payments/create", async (request, response) => {
     amount: total, // subunits of the currency
     currency: "usd",
   }).catch((err) => {
-      console.log("errored")
+    console.log("errored");
   });
 
   // OK - Created
